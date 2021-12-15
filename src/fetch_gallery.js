@@ -4,6 +4,7 @@ const searchParams = new URLSearchParams({
   q: 'name',
   image_type: 'photo',
   per_page: '40',
+  page: '1',
   orientation: 'horizontal',
   safesearch: 'true',
 });
@@ -13,7 +14,9 @@ export async function fetchPictures(name) {
     'key',
   )}&q=${name}&image_type=${searchParams.get('image_type')}&per_page=${searchParams.get(
     'per_page',
-  )}&orientation=${searchParams.get('orientation')}&safesearch=${searchParams.get('safesearch')}`;
+  )}&page=${searchParams.get('page')}&orientation=${searchParams.get(
+    'orientation',
+  )}&safesearch=${searchParams.get('safesearch')}`;
   try {
     const response = await fetch(url);
     const data = await response.json();

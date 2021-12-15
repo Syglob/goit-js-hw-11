@@ -35,7 +35,8 @@ function getInputValue(event) {
         const template = ` <div class="gallery-card">
     <div class="photo-card">
     <a href="${largeImageURL}">
-      <img src="${webformatURL}" alt="${tags}" loading="lazy" width="300px" " />
+      <img src="${webformatURL}" alt="${tags}"  width="300px" " />
+      </a>
       <div class="info">
         <p class="info-item">
           <b> Likes: ${likes}</b>
@@ -50,13 +51,14 @@ function getInputValue(event) {
           <b> Downloads: ${downloads}</b>
         </p>
       </div>
-      </a>
     </div>
 </div>`;
         galleryEl.insertAdjacentHTML('beforeend', template);
         const lighbox = new SimpleLightbox('.gallery a', {
           captionsData: 'alt',
-          captionDelay: 250,
+          captionDelay: 100,
+          animationSpeed: 100,
+          animationSlide: false,
           close: true,
           enableKeyboard: true,
         });
