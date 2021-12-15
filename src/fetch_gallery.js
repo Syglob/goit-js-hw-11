@@ -9,14 +9,15 @@ const searchParams = new URLSearchParams({
   safesearch: 'true',
 });
 //
-export async function fetchPictures(name) {
+
+export async function fetchPictures(searchValue, page) {
   const url = `https://pixabay.com/api/?key=${searchParams.get(
     'key',
-  )}&q=${name}&image_type=${searchParams.get('image_type')}&per_page=${searchParams.get(
+  )}&q=${searchValue}&image_type=${searchParams.get('image_type')}&per_page=${searchParams.get(
     'per_page',
-  )}&page=${searchParams.get('page')}&orientation=${searchParams.get(
-    'orientation',
-  )}&safesearch=${searchParams.get('safesearch')}`;
+  )}&page=${page}&orientation=${searchParams.get('orientation')}&safesearch=${searchParams.get(
+    'safesearch',
+  )}`;
   try {
     const response = await fetch(url);
     const data = await response.json();
