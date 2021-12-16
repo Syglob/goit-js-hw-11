@@ -15,7 +15,7 @@ const InputSearch = document.querySelector('.input_js');
 // //
 // //
 import { fetchPictures } from './fetch_gallery';
-// //
+// black man walk
 
 //
 let searchValue = '';
@@ -24,9 +24,11 @@ btnMore.addEventListener('click', () => {
   fetchPictures(searchValue, page).then(data => {
     console.log('do', page);
     page += 1;
-    if (data.hits.length === 0) {
-      Notify.info('Нет больше картинок');
+    if (data.totalHits.length === 0) {
+      Notify.info('Were sorry, but youve reached the end of search results.');
       btnMore.className = 'hide';
+    } else if (data.totalHits.length === 0) {
+      Notify.info('Please try again.');
     }
     data.hits.forEach(item => {
       const { webformatURL, largeImageURL, tags, likes, views, comments, downloads } = item;
@@ -63,9 +65,7 @@ btnMore.addEventListener('click', () => {
   });
 });
 //
-function ressetPage() {
-  page = 1;
-}
+
 inputEl.addEventListener('submit', getInputValue);
 //
 function getInputValue(event) {
@@ -75,11 +75,12 @@ function getInputValue(event) {
   console.log('posle', page);
   galleryEl.innerHTML = '';
   fetchPictures(searchValue, page).then(data => {
-    btnMore.classList.remove('hide');
     if (data.hits.length === 0) {
+      btnMore.className = 'hide';
       Notify.info('"Sorry, there are no images matching your search query. Please try again."');
     } else {
       data.hits.forEach(item => {
+        btnMore.classList.remove('hide');
         const { webformatURL, largeImageURL, tags, likes, views, comments, downloads } = item;
         const template = ` <div class="gallery-card">
     <div class="photo-card">
