@@ -24,11 +24,9 @@ btnMore.addEventListener('click', () => {
   fetchPictures(searchValue, page).then(data => {
     console.log('do', page);
     page += 1;
-    if (data.totalHits.length === 0) {
+    if (data.hits.length === 0) {
       Notify.info('Were sorry, but youve reached the end of search results.');
       btnMore.className = 'hide';
-    } else if (data.totalHits.length === 0) {
-      Notify.info('Please try again.');
     }
     data.hits.forEach(item => {
       const { webformatURL, largeImageURL, tags, likes, views, comments, downloads } = item;
@@ -61,6 +59,7 @@ btnMore.addEventListener('click', () => {
         close: true,
         enableKeyboard: true,
       });
+      lighbox.refresh(galleryEl);
     });
   });
 });
@@ -79,6 +78,8 @@ function getInputValue(event) {
       btnMore.className = 'hide';
       Notify.info('"Sorry, there are no images matching your search query. Please try again."');
     } else {
+      const totalHits = data.totalHits;
+      Notify.success(` Hooray! We found ${totalHits} images.`);
       data.hits.forEach(item => {
         btnMore.classList.remove('hide');
         const { webformatURL, largeImageURL, tags, likes, views, comments, downloads } = item;
@@ -102,7 +103,7 @@ function getInputValue(event) {
         </p>
       </div>
 </div>`;
-        galleryEl.insertAdjacentHTML('beforeend', template);
+        galleryEl.insertAdjacentHTML('afterbegin', template);
         const lighbox = new SimpleLightbox('.gallery a', {
           captionsData: 'alt',
           captionDelay: 100,
@@ -110,6 +111,7 @@ function getInputValue(event) {
           close: true,
           enableKeyboard: true,
         });
+        lighbox.refresh(galleryEl);
       });
     }
   });
