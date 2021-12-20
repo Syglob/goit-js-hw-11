@@ -20,58 +20,14 @@ import { fetchPictures } from './fetch_gallery';
 //
 let searchValue = '';
 let page = 1;
-btnMore.addEventListener('click', () => {
-  fetchPictures(searchValue, page).then(data => {
-    console.log('do', page);
-    page += 1;
-    if (data.hits.length === 0) {
-      Notify.info('Were sorry, but youve reached the end of search results.');
-      btnMore.className = 'hide';
-    }
-    data.hits.forEach(item => {
-      const { webformatURL, largeImageURL, tags, likes, views, comments, downloads } = item;
-      const template = ` <div class="gallery-card">
-    <div class="photo-card">
-    <a href="${largeImageURL}"><img src="${webformatURL}" alt = "${tags}"/></a>
-    </div>
-      <div class="info">
-      <p class="info-item">${tags}</p>
-        <p class="info-item">
-          <b> Likes: ${likes}</b>
-        </p>
-        <p class="info-item">
-          <b> Views: ${views}</b>
-        </p>
-        <p class="info-item">
-          <b> Comments: ${comments}</b>
-        </p>
-        <p class="info-item">
-          <b> Downloads: ${downloads}</b>
-        </p>
-      </div>
-
-</div>`;
-      galleryEl.insertAdjacentHTML('beforeend', template);
-      const lighbox = new SimpleLightbox('.gallery a', {
-        captionsData: 'alt',
-        captionDelay: 100,
-        animationSpeed: 100,
-        close: true,
-        enableKeyboard: true,
-      });
-      lighbox.refresh(galleryEl);
-    });
-  });
-});
 //
-
 inputEl.addEventListener('submit', getInputValue);
 //
 function getInputValue(event) {
   event.preventDefault();
   searchValue = InputSearch.value;
   console.log(searchValue);
-  console.log('posle', page);
+  console.log('first', page);
   galleryEl.innerHTML = '';
   fetchPictures(searchValue, page).then(data => {
     if (data.hits.length === 0) {
@@ -116,3 +72,47 @@ function getInputValue(event) {
     }
   });
 }
+// ----------------------------------------------------------------------------------------------------------------------
+btnMore.addEventListener('click', () => {
+  page += 1;
+  fetchPictures(searchValue, page).then(data => {
+    console.log('more', page);
+    if (data.hits.length === 0) {
+      Notify.info('Were sorry, but youve reached the end of search results.');
+      btnMore.className = 'hide';
+    }
+    data.hits.forEach(item => {
+      const { webformatURL, largeImageURL, tags, likes, views, comments, downloads } = item;
+      const template = ` <div class="gallery-card">
+    <div class="photo-card">
+    <a href="${largeImageURL}"><img src="${webformatURL}" alt = "${tags}"/></a>
+    </div>
+      <div class="info">
+      <p class="info-item">${tags}</p>
+        <p class="info-item">
+          <b> Likes: ${likes}</b>
+        </p>
+        <p class="info-item">
+          <b> Views: ${views}</b>
+        </p>
+        <p class="info-item">
+          <b> Comments: ${comments}</b>
+        </p>
+        <p class="info-item">
+          <b> Downloads: ${downloads}</b>
+        </p>
+      </div>
+
+</div>`;
+      galleryEl.insertAdjacentHTML('beforeend', template);
+      const lighbox = new SimpleLightbox('.gallery a', {
+        captionsData: 'alt',
+        captionDelay: 100,
+        animationSpeed: 100,
+        close: true,
+        enableKeyboard: true,
+      });
+      lighbox.refresh(galleryEl);
+    });
+  });
+});

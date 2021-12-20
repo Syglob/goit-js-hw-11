@@ -8,7 +8,6 @@ const searchParams = new URLSearchParams({
   orientation: 'horizontal',
   safesearch: 'true',
 });
-//
 
 export async function fetchPictures(searchValue, page) {
   const url = `https://pixabay.com/api/?key=${searchParams.get(
@@ -27,3 +26,4 @@ export async function fetchPictures(searchValue, page) {
     console.log(error);
   }
 }
+//----------------------------------------------------------------------------------------------------------------------

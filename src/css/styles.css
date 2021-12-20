@@ -73,6 +73,7 @@ img {
   margin: -1px;
   /* display: none; */
 }
+
 .load-more {
   display: flex;
   justify-content: center;
@@ -88,7 +89,7 @@ img {
   cursor: pointer;
 }
 
-.load-more:hover {
+.load-more :hover {
   color: rgb(209, 194, 194);
   background-color: rgba(58, 46, 46, 0.75);
   transition-duration: 400ms;
